@@ -1,0 +1,31 @@
+#include<iostream>
+#include<limits.h>
+
+int main(){
+    int T;
+    std::cin>>T;
+    while(T--){
+        int n;
+        std::cin>>n;
+        int max=INT_MIN;
+        int curSum=0;
+        int a[n];
+        for(int i=0;i<n;i++){
+            std::cin>>a[i];
+        }
+        
+        curSum=a[0];
+        for(int i=1;i<n;i++){
+             if(curSum>max)
+                max = curSum;
+            if(curSum<=0){
+                curSum=0;
+            }
+            curSum+=a[i];
+        }
+        if(curSum>max)
+            max = curSum;
+
+        std::cout<<max<<"\n";
+    }
+}
