@@ -1,0 +1,46 @@
+#include<iostream>
+
+std::pair<int,int>subArraywithSum(int a[],int n,int sum){
+    int start=0,end=0;
+    int curSum=0;
+    if(n==0)
+      return std::pair<int,int>(-1,-1);
+    if(n==1){
+        if(a[0]==sum)
+        return std::pair<int,int>(1,1);
+        else
+        return std::pair<int,int>(-1,-1);
+    }
+    for(int i=0;i<=n;i++){    //i<=n: to check the end case as well
+	    while(curSum>sum && start<n){
+	        curSum -=a[start];
+	        start++;
+	    }
+        if(curSum==sum){
+            //start,end-1: positions from array when starting index is 0
+         return std::pair<int,int>(start+1,end);
+        }
+        curSum+=a[i];
+        end++;
+  }
+  return std::pair<int,int>(-1,-1);
+}
+
+int main(){
+int T;
+std::cin >>T;
+while(T--){
+  int n;
+  int sum;
+  std::cin>>n>>sum;
+  int a[n];
+  for(int i=0;i<n;i++){
+	std::cin>>a[i];
+  }
+  std::pair<int,int>p = subArraywithSum(a,n,sum);
+  if(p.first==-1)
+  std::cout<<p.first<<"\n";
+  else
+  std::cout<<p.first<<" "<<p.second<<"\n";
+}
+}
