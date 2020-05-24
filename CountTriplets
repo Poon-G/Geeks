@@ -1,0 +1,34 @@
+#include<iostream>
+#include<unordered_map>
+
+int main(){
+    int T;
+    std::cin>>T;
+    while(T--){
+        int n;
+        std::cin>>n;
+        int countTriplets=0;
+        int a[n];
+        for(int i=0;i<n;i++){
+            std::cin>>a[i];
+        }
+        std::unordered_map<int,int>hashMap;
+        for(int i=0;i<n;i++)
+        hashMap[a[i]]=i;
+        
+       // for(auto it:hashMap)
+        //std::cout<<it.first<<" "<<it.second<<"\n";
+        
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(hashMap.find(a[i]+a[j])!=hashMap.end()){
+                    countTriplets++;
+                }
+            }
+        }
+        if(countTriplets==0)
+        countTriplets=-1;
+        
+       std::cout<<countTriplets<<"\n";
+    }
+}
