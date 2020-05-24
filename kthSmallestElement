@@ -1,0 +1,102 @@
+#include<iostream>
+#include<queue>
+
+int kthSmall(int a[],int p,int q,int k){
+    std::priority_queue<int>MaxHeap;
+    for(int i=p;i<=q;i++){
+        if(i<k)
+        MaxHeap.push(a[i]);
+        else{
+            int x=MaxHeap.top();
+            if(x>a[i]){
+                MaxHeap.pop();
+                MaxHeap.push(a[i]);
+            }
+        }
+    }
+    return MaxHeap.top();
+}
+// int Partitionl(int a[],int p,int q){
+//     int x=a[p];
+//     int i=p;
+//     for(int j=p+1;j<=q;j++){
+//         if(a[j]<=x)
+//         {
+//             i++;
+//             std::swap(a[i],a[j]);
+//         }
+//     }
+//     std::swap(a[i],a[p]);
+//     return i;
+// }
+
+// int Partition(int arr[], int l, int r) 
+// { 
+//     //r=r-1;
+// 	int x = arr[r], i = l; 
+// 	for (int j = l; j <= r - 1; j++) { 
+// 		if (arr[j] <= x) { 
+// 			std::swap(arr[i], arr[j]); 
+// 			i++; 
+// 		} 
+// 	} 
+// 	std::swap(arr[i], arr[r]); 
+// 	return i; 
+// } 
+
+// void printArray(int a[],int i,int n){
+//     for(;i<n;++i)
+//     std::cout<<a[i]<<" ";
+//     std::cout<<"\n";
+// }
+// int kthSmallest(int a[],int p,int q,int k){
+//     // if(k==p)
+//     // return a[p];
+    
+//     if(p==q){
+//         return -1;
+//     }
+//     // if(p==q-1){
+//     //     if(k==q)
+//     //     return a[q];
+//     //     return -1;
+//     // }
+// if(p<=q){
+//     int r=Partition(a,p,q);
+//     //std::cout<<"***r****p****k\n";
+//   //  std::cout<<r<<": "<<p<<" "<<k<<"\n";
+    
+//     if(r-p==k-1)
+//     return a[r];
+    
+//     if(r-p>k-1){
+//       // printArray(a,p,r);
+//      //   std::cout<<"****left****\n";
+//       //  std::cout<<p<<" "<<r-1<<"\n";
+//     return kthSmallest(a,p,r-1,k);
+//     }
+//     else{
+//       // printArray(a,r+1,q);
+//       //   std::cout<<"****right****\n";
+//     //     std::cout<<r+1<<" "<<q<<"\n";
+//       //  std::cout<<"k: "<<k<<"\n";
+//     return kthSmallest(a,r+1,q,k-r+p-1);
+//     }
+// }
+//     return -1;
+// }
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n,k;
+	    std::cin>>n;
+	    int a[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>a[i];
+	    std::cin>>k;
+	    std::cout<<kthSmall(a,0,n-1,k)<<"\n";
+	}
+	
+}
