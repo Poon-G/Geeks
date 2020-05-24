@@ -21,7 +21,8 @@ int main(){
         
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
-                if(hashMap.find(a[i]+a[j])!=hashMap.end()){
+                if(hashMap.find(a[i]+a[j])!=hashMap.end() &&
+                   (hashMap[a[i]+a[j]]!=i || hashMap[a[i]+a[j]]!=j) ){
                     countTriplets++;
                 }
             }
