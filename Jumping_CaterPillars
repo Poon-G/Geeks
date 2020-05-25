@@ -1,0 +1,35 @@
+#include<iostream>
+
+int main()
+{
+    int T;
+    std::cin>>T;
+    while(T--){
+        int n,k;
+        std::cin>>n>>k;
+        int j[k];
+        int a[n]={0};
+        for(int i=0;i<k;++i){
+            std::cin>>j[i];
+        }
+          //  int x = j[i];
+        for(int i=0;i<k;++i){
+            int e=-1;
+            while(e<n){
+                e+=j[i];
+                if(e>0)
+                a[e]=-1;
+            }
+        }
+        
+        int count=0;
+        
+        for(int i=0;i<n;++i){
+            if(a[i]!=-1){
+            count++;
+            }
+        }
+        std::cout<<count<<"\n";
+    }
+	
+}
