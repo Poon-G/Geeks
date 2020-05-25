@@ -1,0 +1,36 @@
+#include<iostream>
+
+int main()
+ {
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    int flag=0;
+	    int a[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>a[i];
+	    int buy=0,sell=0;
+	    for(int i=1;i<n;i++){
+	        if(a[i]>a[buy] && a[i]>a[sell])
+	        sell=i;
+	        else if(a[buy]>a[i] || a[sell]>a[i]){
+	            if(buy!=sell){
+	                std::cout<<"("<<buy<<" "<<sell<<") ";
+	                flag=1;
+	            }
+	            buy=i;
+	            sell=i;
+	        }
+	    }
+	    if(buy!=sell){
+	       std::cout<<"("<<buy<<" "<<sell<<") ";
+	       flag=1;
+	    }
+	    if(flag==0)
+	    std::cout<<"No Profit";
+	    std::cout<<"\n";
+	}
+	return 0;
+}
