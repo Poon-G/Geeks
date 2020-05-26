@@ -1,0 +1,44 @@
+#include<iostream>
+#include<string>
+
+int RomanToInt(char c){
+    switch(c){
+        case 'I':
+        return 1;
+        case 'V':
+        return 5;
+        case 'X':
+        return 10;
+        case 'L':
+        return 50;
+        case 'C':
+        return 100;
+        case 'D':
+        return 500;
+        case 'M':
+        return 1000;
+    }
+    return -1;
+}
+int main()
+ {
+	int T;
+	std::cin>>T;
+	while(T--){
+	    std::string s;
+	    std::cin>>s;
+	    int roman=0;
+	    int n = s.size();
+	    for(int i=0;i<n;++i){
+	        int l=RomanToInt(s[i]);
+	        if(i+1<n && RomanToInt(s[i+1]) > l){
+	            int m=RomanToInt(s[i+1]);
+	            if(l<m)
+	            roman = roman + m-l;
+	            i++;
+	        }else
+	        roman = roman + l;
+	    }
+	    std::cout<<roman<<"\n";
+	}
+}
