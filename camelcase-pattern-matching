@@ -1,0 +1,80 @@
+#include<iostream>
+#include<map>
+#include<vector>
+
+class comparator {
+    public:
+    bool operator()(std::string a,std::string b){
+        if(a.size()!=b.size())
+        return a.size()<b.size();
+        else
+        return a<b;
+    }
+};
+
+bool isUpperCase(char c){
+    if(c>='A' && c<='Z')
+    return true;
+    
+    return false;
+}
+
+std::string convertToCamelPattern(std::string in){
+    std::string res="";
+    for(int i=0;i<in.size();++i){
+        if(isUpperCase(in[i])){
+            res.push_back(in[i]);
+        }
+    }
+    return res;
+}
+bool camelCasePatternMatch(std::string in,std::string pattern){
+    int j=0;
+    for(int i=0;i<in.size();++i){
+        if(isUpperCase(in[i])){
+            if(in[i]!=pattern[j])
+                return false;
+            else
+                j++;
+        
+        }
+        
+        if(j>=pattern.size())
+        return true;
+    }
+    return false;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    std::string s[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>s[i];
+	    std::string pattern;
+	    std::cin>>pattern;
+	    
+	    int i=0;bool flag=false;
+	    std::map<std::string,std::vector<std::string>>MatchedString;
+	    for(;i<n;++i){
+	        if(camelCasePatternMatch(s[i],pattern)){
+	            std::string camelString = convertToCamelPattern(s[i]);
+	            MatchedString[camelString].push_back(s[i]);
+	            flag=true;
+	        }
+	    }
+	    if(!flag)
+	    std::cout<<"No match found";
+	    
+	    for(auto it:MatchedString){
+	        std::vector<std::string>v = it.second;
+	        for(auto p:v)
+	        std::cout<<p<<" ";
+	    }
+	    std::cout<<"\n";
+	}
+}
