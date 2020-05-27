@@ -1,0 +1,41 @@
+#include<iostream>
+#include<unordered_map>
+#include<limits.h>
+
+int main()
+ {
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    char s[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>s[i];
+	    std::pair<int,int>NR[26];
+	    
+	   // std::unordered_map<char,int>RChar;
+	    for(int i=0;i<n;++i){
+	       // RChar[s[i]]++;
+	       (NR[s[i]-'a'].first)++;
+	        NR[s[i]-'a'].second=i;
+	    }
+	    int i=0;
+	   // for(;i<n;++i)
+	   // {
+	   //     if(RChar[s[i]]==1)
+	   //     break;
+	   // }
+	   //if(i<n)
+	   //std::cout<<s[i]<<"\n";
+	    int min = INT_MAX;
+	    for(;i<26;++i){
+	       if(NR[i].first==1)
+	       min = std::min(min,NR[i].second);
+	    }
+	    if(min!=INT_MAX)
+	    std::cout<<s[min]<<"\n";
+	    else
+	    std::cout<<"-1\n";
+	}
+}
