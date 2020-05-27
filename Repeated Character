@@ -1,0 +1,45 @@
+#include<iostream>
+#include<string>
+#include<limits.h>
+#define NOOFCHARS 256
+
+int main()
+{
+    int T;
+    std::cin>>T;
+    while(T--){
+        std::string s;
+        std::cin>>s;
+        int minIndex = INT_MAX;
+        bool flag=false;
+        if(s.size()==0 || s.size()==1)
+           flag=false;
+        else if(s.size()==2){
+            if(s[0]!=s[1])
+                flag=false;
+            else{
+                flag=true;
+                minIndex=0;
+            }
+        }
+        else{
+            std::pair<int,int>Pairs[NOOFCHARS];
+            for(int i=0;i<s.size();++i){
+                if(Pairs[s[i]].first==0)
+                Pairs[s[i]].second=i;
+                (Pairs[s[i]].first)++;
+            }
+        
+            for(int i=0;i<NOOFCHARS;++i){
+                if(Pairs[i].first>1){
+                    minIndex = std::min(minIndex,Pairs[i].second);
+                    flag=true;
+                }
+            }
+        }
+         if(flag)
+                std::cout<<s[minIndex]<<"\n";
+            else
+            std::cout<<"-1\n";
+    }
+}
