@@ -1,0 +1,48 @@
+#include<iostream>
+#include<unordered_map>
+
+bool isUpperCase(char c){
+    if(c>='A' && c<='Z')
+    return true;
+    
+    return false;
+}
+
+char convertToLower(char c){
+    if(isUpperCase(c) && c!=' ')
+    return c+32;
+    
+    return c;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	std::getchar();
+	while(T--){
+	    std::string s;
+	    //std::cin.ignore();
+	    std::getline(std::cin,s);
+	    int space = 0;
+	    std::unordered_map<char,int>Mp;
+	    std::string result="";
+	    for(int i=0;i<s.size();++i){
+	        char c = convertToLower(s[i]);
+	        
+	       // 1st way:
+	       if(Mp[c]>0)
+	               Mp[c]--;
+	       else{
+	           result.push_back(s[i]);
+	           Mp[c]=1;
+	       }
+	       
+	       //2nd way:
+	       //Mp[c]++;
+	       //if(Mp[c] & 1)
+	       // result.push_back(s[i]);
+	    }
+	    std::cout<<result<<"\n";
+	}
+}
