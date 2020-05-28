@@ -1,0 +1,117 @@
+#include<iostream>
+#include<forward_list>
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int x=0):data(x),next(NULL){}
+};
+
+class List{
+  public:
+  Node* head;
+  List():head(NULL){}
+  void push(int data){
+      Node *tmp = new Node(data);
+      if(head==NULL){
+          head=tmp;
+      }else{
+          Node* cur=head;
+          while(cur->next)
+          cur=cur->next;
+          cur->next=tmp;
+      }
+     
+  }
+  int getMiddle(){
+      Node* slow=head;
+      Node* fast = head;
+      while(fast && fast->next){
+          fast=fast->next->next;
+          slow=slow->next;
+      }
+      return slow->data;
+  }
+  int getMiddle2(){
+      int index=1;
+      Node* fast = head;
+      while(fast && fast->next){
+          fast=fast->next->next;
+          index++;
+      }
+      fast=head;
+      while(--index){
+          fast=fast->next;
+      }
+      return fast->data;
+  }
+  void PrintList(){
+      Node* cur=head;
+      while(cur){
+          std::cout<<cur->data<<" ";
+          cur=cur->next;
+      }
+      std::cout<<"\n";
+  }
+};
+
+int nodeList(){
+    List *l1=new List;
+    l1->push(1);
+    l1->push(2);
+    l1->push(3);
+    l1->push(4);
+    l1->push(5);
+    l1->push(6);
+    l1->push(7);
+    // l1->push(8);
+    // l1->push(9);
+    //l1->PrintList();
+    return l1->getMiddle2();
+}
+
+/*******************using STL****************************/ 
+int size(std::forward_list<int>node){
+    int s=0;
+    for(auto it:node){
+        s++;
+    }
+    return s;
+}
+int getMiddle(std::forward_list<int>node){
+    int x=size(node);
+    int mid=x/2;
+    mid +=1;
+    std::cout<<x<<" "<<mid<<"\n";
+    if(x==0)
+    return -1;
+    // if(x==1 || x==2)
+    //     return node.front();
+        
+    while(--mid){
+        node.pop_front();
+    }
+    return node.front();
+}
+
+int forwardList(){
+    std::forward_list<int>node;
+  //  node.push_front(9);
+    node.push_front(8);
+    node.push_front(7);
+    node.push_front(6);
+    node.push_front(5);
+    node.push_front(4);
+    node.push_front(3);
+    node.push_front(2);
+    node.push_front(1);
+    
+    return getMiddle(node);
+}
+
+int main(){
+    std::cout<<forwardList()<<"\n";
+    std::cout<<nodeList();
+    
+}
