@@ -1,0 +1,184 @@
+#include<iostream>
+#include<unordered_set>
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    bool mark;
+    Node():data(-1),next(NULL),mark(false){}
+    Node(int data):data(data),next(NULL),mark(false){}
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList():head(NULL){}
+    void Push_front(int x){
+        Node* cur = new Node(x);
+        if(head==NULL)
+          head=cur;
+        else{
+            cur->next=head;
+            head=cur;
+        }
+    }
+    void push(Node* t){
+        if(head==NULL)
+          head=t;
+        else{
+            t->next=head;
+            head=t;
+        }
+    }
+};
+
+bool DetectLoop(Node* head){
+    Node* slow=head;
+    Node* fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool DetectLoop2(Node* head){
+    std::unordered_set<Node*>hash;
+    Node* cur=head;
+    while(cur){
+        if(hash.find(cur)!=hash.end())
+        return true;
+        hash.insert(cur);
+        cur=cur->next;
+    }
+    return false;
+}
+
+bool DetectLoop3(Node* head){
+    Node* cur=head;
+    while(cur){
+        if(cur->mark==true)
+        return true;
+        cur->mark=true;
+        cur=cur->next;
+    }
+    return false;
+}
+
+bool DetectLoop4(Node* head){
+    Node* cur=head;
+    Node* tmp=new Node;
+    while(cur){
+        if(cur->next==tmp)
+        return true;
+        
+        Node* next=cur->next;
+        cur->next=tmp;
+        
+        cur=next;
+        
+    }
+    return false;
+}
+
+//kth node from end of LinkedList:
+//4 ways: 1)count all and do n-k and traverse
+//2)Reverse LinkedList and traverse till kth
+//3)2 pointers: move first one to k node fron start then move both node until first reaches end. 
+                //the second node will be pointing to kth node from end
+//4)Recursion: do Recursion till k-1 and check kth after each Recursion, if k reaches 0. print that node
+
+Node* pairWiseSwap(Node* head) {
+    if(head==NULL)
+    return head;
+    if(head->next==NULL)
+    return head;
+    Node* prev=head;
+    Node* cur=head->next;
+    Node* next=cur->next;
+    cur->next=prev;
+    prev->next = pairWiseSwap(next);
+    return cur;
+}
+
+//segregate LinkedList into 0, 1 and 2
+Node* segregate(Node *head) {
+    int c_0=0;
+    int c_1=0;
+    int c_2=0;
+    Node* cur=head;
+    while(cur){
+        switch(cur->data){
+            case 0:
+            c_0++;
+            break;
+            case 1:
+            c_1++;
+            break;
+            case 2:
+            c_2++;
+            break;
+        }
+        cur =cur->next;
+    }
+    cur=head;
+    while(cur){
+        if(c_0){
+        cur->data=0;
+        c_0--;
+        }else if(c_1){
+        cur->data=1;
+        c_1--;
+        }else{
+        cur->data=2;
+        c_2--;
+        }
+        cur=cur->next;
+    }
+    return head;
+}
+
+//delete wihtout head pointer, node is the ndoe to be deleted
+void deleteNode(Node *node)
+{
+  Node* tmp=node->next;
+  if(tmp==NULL)
+  {
+      node=NULL;
+      free(node);
+      return;
+  }
+  swap(node->data,tmp->data);
+  if(tmp->next){
+      node->next=tmp->next;
+  }else
+  node->next=NULL;
+  tmp->next=NULL;
+  tmp=NULL;
+  free(tmp);
+  
+}
+
+int main(){
+    LinkedList *list = new LinkedList;
+    Node* tmp2 = new Node(4);
+    list->push(tmp2);
+    
+    Node* tmp = new Node(3);
+    list->push(tmp);
+    
+    tmp = new Node(2);
+    list->push(tmp);
+    
+    tmp = new Node(1);
+    list->push(tmp);
+    
+    Node* head=list->head;
+   // head->next->next->next->next=head->next->next;
+    
+    std::cout<<DetectLoop4(head)<<"\n";
+}
