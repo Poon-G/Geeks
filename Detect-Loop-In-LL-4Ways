@@ -1,0 +1,106 @@
+#include<iostream>
+#include<unordered_set>
+
+class Node{
+    public:
+    int data;
+    Node* next;
+    bool mark;
+    Node():data(-1),next(NULL),mark(false){}
+    Node(int data):data(data),next(NULL),mark(false){}
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList():head(NULL){}
+    void Push_front(int x){
+        Node* cur = new Node(x);
+        if(head==NULL)
+          head=cur;
+        else{
+            cur->next=head;
+            head=cur;
+        }
+    }
+    void push(Node* t){
+        if(head==NULL)
+          head=t;
+        else{
+            t->next=head;
+            head=t;
+        }
+    }
+};
+
+bool DetectLoop(Node* head){
+    Node* slow=head;
+    Node* fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool DetectLoop2(Node* head){
+    std::unordered_set<Node*>hash;
+    Node* cur=head;
+    while(cur){
+        if(hash.find(cur)!=hash.end())
+        return true;
+        hash.insert(cur);
+        cur=cur->next;
+    }
+    return false;
+}
+
+bool DetectLoop3(Node* head){
+    Node* cur=head;
+    while(cur){
+        if(cur->mark==true)
+        return true;
+        cur->mark=true;
+        cur=cur->next;
+    }
+    return false;
+}
+
+bool DetectLoop4(Node* head){
+    Node* cur=head;
+    Node* tmp=new Node;
+    while(cur){
+        if(cur->next==tmp)
+        return true;
+        
+        Node* next=cur->next;
+        cur->next=tmp;
+        
+        cur=next;
+        
+    }
+    return false;
+}
+
+int main(){
+    LinkedList *list = new LinkedList;
+    Node* tmp2 = new Node(4);
+    list->push(tmp2);
+    
+    Node* tmp = new Node(3);
+    list->push(tmp);
+    
+    tmp = new Node(2);
+    list->push(tmp);
+    
+    tmp = new Node(1);
+    list->push(tmp);
+    
+    Node* head=list->head;
+    head->next->next->next->next=head->next->next;
+    
+    std::cout<<DetectLoop4(head)<<"\n";
+}
