@@ -1,0 +1,106 @@
+#include<iostream>
+#include<stack>
+#include<queue>
+
+template<class T>
+class Queue1stack{
+  public:
+  std::stack<T>s;
+  void push(T data){
+      if(s.empty())
+        s.push(data);
+      else{
+          int y = s.top();
+          s.pop();
+          push(data);
+          s.push(y);
+      }
+  }
+  T pop(){
+      if(s.empty())
+      return -1;
+      T data=s.top();
+      s.pop();
+      std::cout<<data<<"\n";
+      return data;
+  }
+};
+
+template<class T>
+class Queue2stack{
+    public:
+    std::stack<T>s1;
+    std::stack<T>s2;
+    void push(T data){
+        s1.push(data);
+    }
+    T pop(){
+        if(s2.empty()){
+            if(s1.empty())
+            return -1;
+            else{
+                while(!s1.empty()){
+                    s2.push(s1.top());
+                    s1.pop();
+                }
+            }
+        }
+        T data = s2.top();
+        std::cout<<data<<"\n";
+        s2.pop();
+    }
+};
+
+/*********stack Using 1 queue***********/
+template<class T>
+class Stack{
+    public:
+    std::queue<T>q;
+    void push(T data){
+        if(q.empty())
+            q.push(data);
+        else{
+            int x=q.size();
+            q.push(data);
+            while(x--){
+                q.push(q.front());
+                q.pop();
+            }
+        }
+    }
+    T pop(){
+        T data = q.front();
+        std::cout<<data<<"\n";
+        q.pop();
+    }
+};
+
+int main(){
+    // Queue2stack<int>q;
+    // q.push(1);
+    // q.push(2);
+    // q.push(3);
+    // q.push(4);
+    // q.pop();
+    // q.push(5);
+    // q.pop();
+    // q.push(6);
+    // q.push(7);
+    // q.push(8);
+    // q.pop();
+    // q.pop();
+    // q.pop();
+    // q.pop();
+    
+    Stack<int>s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    s.push(5);
+    s.pop();
+    s.pop();
+    s.push(7);
+    s.pop();
+    
+}
