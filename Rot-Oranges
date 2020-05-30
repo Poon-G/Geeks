@@ -1,0 +1,58 @@
+#include<iostream>
+#include<stack>
+
+void pushRotOranges(std::stack<std::pair<int,int>>&p,int i,int j){
+    p.push(pair<int,int>(i,j));
+}
+
+void initRotOranges(std::stack<std::pair<int,int>>&p,
+                        int arr[][],int r,int c){
+    for(int i=0;i<r;++i){
+        for(int j=0;j<c;++j){
+            if(arr[i][j]==2)
+             p.push(pair<int,int>(i,j));
+        }
+    }
+}
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int r,c;
+	    std::cin>>r>>c;
+	    int arr[r][c];
+	    for(int i=0;i<r;++i){
+	        for(int j=0;j<c;++j)
+	            std::cin>>arr[i][j];
+	    }
+	    std::stack<std::pair<int,int>>rOranges;
+	    initRotOranges(rOranges,arr,r,c);
+	    bool flag=false;
+	    int ans=0;
+	    while(!rOranges.empty()){
+	        flag=false;
+	        pair<int,int>p = rOranges.top();
+	        while(p.first!=-1){
+	                int r1[]={-1,1,0,0};
+	                int c1[]={0,0,-1,1};
+	                for(int i=0;i<4;++i){
+	                    int x = p.first+r1[i];
+	                    int y = p.second+c1[i];
+	                    if(arr[x][y]==1){
+	                        arr[x][y]==2;
+	                        pushRotOranges(rOranges,i,j);
+	                        flag=true;
+	                    }
+	                }
+	            rOranges.pop();
+	        }
+	        if(flag)
+	        ans++;
+	        rOranges.pop();
+	        if(!rOranges.empty())
+	        rOranges.insert(pair<int,int>(-1,-1));
+	    }
+	}
+	
+}
