@@ -1,0 +1,57 @@
+#include<iostream>
+#include<string>
+#include<stack>
+
+bool checkifBalanced(char in, char o){
+    switch(in){
+        case '(':
+            if(o==')')
+            return true;
+        case '{':
+            if(o=='}')
+            return true;
+        case '[':
+            if(o==']')
+            return true;
+    }
+    return false;
+}
+
+int main()
+{
+    int T;
+    std::cin>>T;
+    while(T--){
+        std::string s;
+        std::cin>>s;
+        std::stack<char>Paren;
+        bool flag=true;
+        int n=s.size();
+        int i=0;
+        for(;i<n;++i){
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+            Paren.push(s[i]);
+            else{
+                if(Paren.empty()){
+                    flag=false;
+                    break;
+                }else{
+                    if(checkifBalanced(Paren.top(),s[i]))
+                        Paren.pop();
+                    else{
+                        flag=false;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        if(i>=n && !Paren.empty())
+        flag=false;
+        
+        if(flag)
+        std::cout<<"balanced\n";
+        else
+        std::cout<<"not balanced\n";
+    }
+}
