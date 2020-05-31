@@ -1,0 +1,66 @@
+#include<iostream>
+#include<map>
+
+class MaxHeap{
+    public;
+    int size;
+    int a[];
+    int capacity;
+    MaxHeap(int n):size(n), a(new int[n]), capacity(2*n){}
+    void buildHeap(){
+        for(int i=n/2-1;i>=0;--i)
+            heapify(a,n,i);
+    }
+    void heapify(int a[],int n,int i){
+        if(n==0)
+        return;
+        int largest=i;
+        int left=2*i+1;
+        int right=2*i+2;
+        if(left>0 && left<n && a[left]>a[right])
+        largest = left;
+        if(right>0 && right<n && a[right]>a[right])
+        largest = right;
+        if(largest!=i){
+            std::swap(a[largest],a[i]);
+            heapify(a,n,largest);
+        }
+    }
+    void HeapSort(){
+        buildHeap();
+        for(int i=n-1;i>=0;i--){
+            std::swap(a[0],a[i]);
+            heapify(a,n,0);
+        }
+    }
+}
+
+void restoreArray(int a[],std::map<int,int>Median){
+    int i=0;
+    for(auto it:Median)
+        a[i++]=it.first;
+}
+
+int main()
+{
+    int T;
+    std::cin>>T;
+    int a[T];
+    int i=0;
+    std::map<int,int>Median;
+    while(T--){
+        std::cin>>a[i];
+        Median[a[i]]++;
+        
+        int size=Median.size();
+        restoreArray(a,Median);
+        int med=-1;
+        if(size%2==0)
+            med = (a[size/2-1]+a[size/2])/2;
+        else
+            med = a[size/2];
+        
+        std::cout<<med<<"\n";
+        i++;
+    }
+}
