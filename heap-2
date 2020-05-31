@@ -1,0 +1,120 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+
+class minHeap{
+    public:
+    int size;
+    int cap;
+    int *arr;
+    int Parent(int i){
+        return i/2;
+    }
+    int left(int i){
+        return 2*i+1;
+    }
+    int right(int i){
+        return 2*i+2;
+    }
+    minHeap(int x):size(0),cap(x),arr(new int[cap]){}
+    void insert(int data){
+        if(size<=cap){
+            arr[size++]=data;
+            for(int i=size-1;size>=0;size--){
+                heapify(i);
+            }
+        }else{
+            if(data>arr[0]){
+                replaceMin(data);
+            }
+        }
+    }
+    void replaceMin(int data){
+        arr[0]=data;
+        heapify(0);
+    }
+    void heapify(int i){
+        if(size==0)
+        return;
+        
+        int s=i;
+        int l = left(i);
+        int r = right(i);
+        if(l>0 && l<size && arr[l]<arr[s])
+            s=l;
+        if(r>0 && r<size && arr[r]<arr[s])
+            s=r;
+        if(s!=i){
+            std::swap(arr[s],arr[i]);
+            heapify(s);
+        }
+    }
+    int extractMin(){
+        if(size==0)
+        return -1;
+        if(size==1){
+            int data = arr[0];
+            size=0;
+            return data;
+        }
+        
+        int data = arr[0];
+        std::swap(arr[0],arr[size-1]);
+        size=size-1;
+        heapify(0);
+        
+        return data;
+        
+    }
+    int extractKLarge(int k){
+        if(size<k){
+            return -1;
+        }
+        
+        return arr[0];
+    }
+    void print(){
+        for(int i=0;i<size;++i)
+        std::cout<<arr[i]<<" ";
+        std::cout<<"\n";
+    }
+};
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int k,n;
+	    std::cin>>k>>n;
+	    int a[n];
+	    for(int i=0;i<n;++i)
+	        std::cin>>a[i];
+	    minHeap m(k);
+	   // std::priority_queue<int, std::vector<int>, std::greater<int>>p;
+	   // int j = k;
+	   // for(int i=0;i<n;++i){
+	   //     if(j!=0){
+	   //         p.push(a[i]);
+	   //         if(p.size()<k)
+	   //             std::cout<<"-1 ";
+	   //         else
+	   //             std::cout<<p.top()<<" ";
+	   //         j--;
+	   //     }else{
+	   //         if(a[i]>p.top()){
+	   //             p.pop();
+	   //             p.push(a[i]);
+	   //         }
+	   //         std::cout<<p.top()<<" ";
+	   //     }
+	   // }
+	   for(int i=0;i<n;++i){
+	       m.insert(a[i]);
+	       m.print();
+	      // std::cout<<m.extractKLarge(k)<<" ";
+	   }
+	    std::cout<<"\n";
+	}
+}
