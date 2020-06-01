@@ -1,0 +1,37 @@
+#include<iostream>
+
+int NoOfPaths(int x,int y,int dX,int dY,int &count){
+    if(x>=dX || y>=dY)
+     return 0;
+    
+    if(x==dX-1 && y==dY-1)
+    return count;
+    
+    int r1[]={0,1};
+	int c1[]={1,0};
+	    
+	for(int i=0;i<2;++i){
+	    int row = x+r1[i];
+	    int col = y+c1[i];
+	    
+	    if(row==dX-1 && col==dY-1){
+	        count++;
+	    }
+	    if(row>=0 && row<dX && col>=0 && col<dY)
+	    NoOfPaths(row,col,dX,dY,count);
+	}
+	return count;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int r,c;
+	    std::cin>>r>>c;
+	    int count=0;
+	    std::cout<<NoOfPaths(0,0,r,c,count)<<"\n";
+	    
+	}
+}
