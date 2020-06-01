@@ -1,0 +1,89 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+void print(std::vector<int>p){
+    std::cout<<"("<<p[0];
+    for(int i=1;i<p.size();++i)
+    std::cout<<" "<<p[i];
+    std::cout<<")";
+}
+
+void print2(std::vector<std::vector<int>>res){
+    for(int i=0;i<res.size();++i){
+        std::vector<int>p = res[i];
+        std::cout<<"("<<p[0];
+        for(int i=1;i<p.size();++i)
+        std::cout<<" "<<p[i];
+        std::cout<<")";
+    }
+}
+
+void combinationalSum(int a[], int n,int sum,std::vector<int>&p,bool &flag,
+    std::vector<std::vector<int>>&res){
+    if(n<=0 || sum<0)
+        return;
+
+    if(sum==0){
+        flag=true;
+        std::vector<int>inter=p;
+        std::sort(inter.begin(),inter.end());
+        if(std::find(res.begin(),res.end(),inter)==res.end()){
+            res.push_back(inter);
+        }
+        return;
+    }
+    p.push_back(a[n-1]);
+    combinationalSum(a,n,sum-a[n-1],p,flag,res);
+    p.pop_back();
+    combinationalSum(a,n-1,sum,p,flag,res);
+}
+
+void combinationalSum2(int a[], int n,int sum,std::vector<int>&p,bool &flag,
+    std::vector<std::vector<int>>&res){
+   // static std::vector<std::vector<int>>res;
+    if(n<0 || sum<0)
+        return;
+
+    if(sum==0){
+        flag=true;
+        std::vector<int>inter=p;
+        std::sort(inter.begin(),inter.end());
+        if(std::find(res.begin(),res.end(),inter)==res.end()){
+            res.push_back(inter);
+          //  print(inter);
+        }
+        return;
+    }
+    p.push_back(a[n-1]);
+    combinationalSum2(a,n-1,sum-a[n-1],p,flag,res);
+    p.pop_back();
+    combinationalSum2(a,n-1,sum,p,flag,res);
+}
+
+int main()
+{
+    int T;
+    std::cin>>T;
+    while(T--){
+        int n,sum;
+        std::cin>>n;
+        int a[n];
+        for(int i=0;i<n;++i)
+        std::cin>>a[i];
+        std::cin>>sum;
+        
+        bool flag=false;
+        std::vector<int>p;
+        static std::vector<std::vector<int>>res;
+        combinationalSum2(a,n,sum,p,flag,res);
+        if(flag==false)
+        std::cout<<"Empty";
+        else{
+            std::sort(res.begin(),res.end());
+            print2(res);
+        }
+        res.clear();
+        std::cout<<"\n";
+    }
+}
