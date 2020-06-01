@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+int josephus(int n, int k)
+{
+  std::vector<int>v;
+  for(int i=0;i<n;++i)
+  v.push_back(i+1);
+  
+  int i=0;
+  auto it=v.begin();
+  while(n!=1 || it!=v.end()){
+      int x=k;
+      while(x-- && it!=v.end()){
+          i = (i+1)%v.size();
+          //++it;
+         // std::cout<<*it<<"\n";
+      }
+      int j=(i+1)%v.size();
+     // auto it = v[i].begin();
+      std::cout<<i<<"\n";
+      it= v.erase(it);
+      i = j;
+      n--;
+      //it++;
+  }
+  return v[0];
+}
+
+int main(){
+    std::cout<<josephus(5,3)<<"\n";
+}
