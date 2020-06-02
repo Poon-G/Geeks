@@ -1,0 +1,104 @@
+#include<iostream>
+#include<vector>
+
+void print(std::vector<int>r){
+    std::cout<<"[";
+    for(auto it:r)
+    std::cout<<it<<" ";
+    std::cout<<"]";
+}
+
+void printMat(std::vector<std::vector<char>>mat,int n){
+    for(int i=0;i<n;++i){
+         //std::cout<<mat[i][0];
+        for(int j=0;j<n;++j){
+           //  std::cout<<i<<" "<<j<<"\n";
+            std::cout<<mat[i][j]<<" ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n";
+}
+
+bool isValid(int x,int y,int n,std::vector<std::vector<char>>mat){
+    //row
+   std::cout<<x<<" "<<y<<"\n";
+   printMat(mat,n);
+    for(int i=0;i<n;++i){
+        if(mat[x][i]=='Q')
+        return false;
+    }
+    
+    //col
+    for(int i=0;i<n;++i){
+        if(mat[i][y]=='Q')
+        return false;
+    }
+    
+    //left diag
+    for(int i=x;i>=0;i--){
+        for(int j=y;j>=0;j--){
+            if(mat[i][j]=='Q')
+            return false;
+        }
+    }
+    
+    //right diag
+    for(int i=x;i>=0;i--){
+        for(int j=y;j<n;j++){
+            if(mat[i][j]=='Q')
+            return false;
+        }
+    }
+    return true;
+}
+bool NQueenProblem(int c,int n,std::vector<int>&r,std::vector<std::vector<char>>&mat){
+    if(c==n){
+        print(r);
+        return true;
+    }
+    for(int i=0;i<n;++i){
+        if(isValid(i,c,n,mat)){
+            mat[i][c]='Q';
+            r.push_back(i+1);
+            if(NQueenProblem(c+1,n,r,mat))
+            return true;
+            
+            mat[i][c]='1';
+            r.pop_back();
+        }
+    }
+    
+    return false;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	  //  char **mat=new char*[n];
+	    std::vector<std::vector<char>>mat(n);     
+	    for(int i=0;i<n;i++){
+	      //  mat[i]=new char[n];
+	        mat[i] = std::vector<char>(n);
+	        for(int j=0;j<n;j++){
+	            mat[i][j]='1';
+	        }
+	           // v[i][j]='1';
+	    }
+	    
+	  
+	  //  printMat(mat,n);
+	    if(n==1){
+	        std::cout<<"[1]";
+	    }else{
+	        std::vector<int>res;
+	        NQueenProblem(0,n,res,mat);
+	     //   printMat(mat,n);
+	    }
+	    std::cout<<"\n";
+	}
+}
