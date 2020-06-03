@@ -1,0 +1,68 @@
+#include <iostream>
+
+void leftView(Node *root)
+{
+    std::queue<Node*>q;
+    q.push(root);
+    q.push(NULL);
+    while(!q.empty()){
+        Node* tmp = q.front();
+        if(tmp!=NULL)
+        std::cout<<tmp->data<<" ";
+        while(q.front()!=NULL){
+            if(q.front()==NULL)
+                q.pop();
+            if(tmp->left)
+                q.push(tmp->left);
+            if(tmp->right)
+                q.push(tmp->right);
+            q.pop();
+            tmp = q.front();
+        }
+        q.pop();
+        if(!q.empty())
+        q.push(NULL);
+   }
+}
+
+void leftViewBFSUtil(Node* root,int n){
+    leftViewBFS(root,0,1);
+}
+void leftViewBFS(Node *root,int &r,int h)
+{
+    if(root==NULL)
+    return;
+    
+    if(r<h){
+          std::cout<<root->data<<" ";
+          r=h;
+    }
+    leftViewBFS(root->left,r,h+1);
+    leftViewBFS(root->right,r,h+1);
+}
+
+bool isBST(Node* root) {
+    if(root==NULL)
+    return true;
+    
+    static Node* prev=NULL;
+    isBST(root->left);
+    if(prev==NULL)
+    prev=root;
+    else{
+      //  std::cout<<prev->data<<" "<<root->data<<"\n";
+        if(prev->data>root->data)
+        return false;
+        prev=root;
+    }
+    isBST(root->right);
+    
+    return true;
+    
+}
+
+int main()
+{
+    
+    return 0;
+}
