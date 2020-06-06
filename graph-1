@@ -1,0 +1,105 @@
+#include <iostream>
+
+void dfsUtil(vector<int> g[], int v, bool visited[], vector<int>&res){
+    if(!visited[v]){
+        visited[v]=true;
+        res.push_back(v);
+        for(int i=0;i<g[v].size();++i){   
+            dfsUtil(g,g[v][i],visited,res);
+        }
+    }
+}
+
+vector <int> dfs(vector<int> g[], int N)
+{
+    bool visited[N]={false};
+    vector <int>res;
+    if(N==0)
+    return res;
+    dfsUtil(g,0,visited,res);
+    return res;
+}
+
+vector <int> bfs(vector<int> g[], int N) {
+    std::vector<int>res;
+    if(N==0)
+    return res;
+    
+    std::queue<int>q;
+    bool visited[N]={false};
+    q.push(0);
+    while(!q.empty()){
+        int v = q.front();
+        if(!visited[v]){
+            visited[v]=true;
+            res.push_back(v);
+            for(int i=0;i<g[v].size();++i){
+                if(!visited[g[v][i]])
+                q.push(g[v][i]);
+            }
+            q.pop();
+        }
+    }
+    return res;
+}
+
+bool isCyclicUtil(vector<int>g[],int v,bool visited[],bool rec[]){
+    if(!visited[v]){
+        visited[v]=true;
+        rec[v]=true;
+        for(int i=0;i<g[v].size();++i){
+            if(!visited[g[v][i]]){
+              if(isCyclicUtil(g,g[v][i],visited,rec))
+                return true;
+            }else if(rec[g[v][i]])
+            return true;
+        }
+    }
+    rec[v]=false;
+    return false;
+}
+
+bool isCyclic(int V, vector<int> adj[])
+{
+  bool visited[V]={false};
+  bool rec[V]={false};
+  for(int i=0;i<V;++i){
+      if(!visited[i]){
+           if(isCyclicUtil(adj,i,visited,rec))
+           return true;
+      }
+  }
+  return false;
+}
+
+bool isCyclicUtilUND(vector<int>g[],int v,bool visited[],int parent){
+    visited[v]=true;
+    //std::cout<<v<<" "<<parent<<"\n";
+    for(int i=0;i<g[v].size();++i){
+        if(!visited[g[v][i]]){
+          if(isCyclicUtilUND(g,g[v][i],visited,v))
+          return true;
+        }else if(g[v][i]!=parent)
+            return true;
+    }
+    return false;
+}
+
+bool isCyclicUND(vector<int> g[], int V)
+{
+  bool visited[V]={false};
+  for(int i=0;i<V;++i){
+      if(!visited[i]){
+          if(isCyclicUtilUND(g,i,visited,-1))
+            return true;
+      }
+  }
+  return false;
+}
+
+int main()
+{
+    cout<<"Hello World";
+
+    return 0;
+}
