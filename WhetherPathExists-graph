@@ -1,0 +1,70 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+
+bool isSafe(int x,int y,std::vector<std::vector<int>>v,
+            std::vector<std::vector<int>>visited){
+    int r =v.size();
+    int c=v[0].size();
+    return(x>=0 && y>=0 && x<r && y<c && (v[x][y]==3 || v[x][y]==2)
+            && !visited[x][y]);
+}
+bool BFS(std::vector<std::vector<int>>v,int i,int j){
+    int r = v.size();
+    int c = v[0].size();
+    std::vector<std::vector<int>>visited(r,std::vector<int>(c,false));
+    static int r1[]={-1,0,0,1};
+    static int c1[]={0,-1,1,0};
+    
+    std::queue<std::pair<int,int>>q;
+    q.push(std::pair<int,int>(i,j));
+    visited[i][j]=true;
+    while(!q.empty()){
+        std::pair<int,int>p = q.front();
+        
+        if(v[p.first][p.second]==2)
+        return true;
+        
+        for(int i=0;i<4;++i){
+            int x = p.first+r1[i];
+            int y = p.second+c1[i];
+            if(isSafe(x,y,v,visited)){
+                q.push(std::pair<int,int>(x,y));
+                visited[x][y]=true;
+            }
+        }
+        q.pop();
+    }
+    return false;
+}
+
+bool BFSUtil(std::vector<std::vector<int>>v){
+    int r = v.size();
+    int c = v[0].size();
+    for(int i=0;i<r;++i){
+	   for(int j=0;j<c;++j){
+	       if(v[i][j]==1){
+	           return BFS(v,i,j);
+	       }
+	   }
+	}
+	return false;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    std::vector<std::vector<int>>v(n);
+	    for(int i=0;i<n;++i){
+	        v[i]=std::vector<int>(n);
+	        for(int j=0;j<n;++j)
+	        std::cin>>v[i][j];
+	    }
+
+	    std::cout<<BFSUtil(v)<<"\n";
+	}
+}
