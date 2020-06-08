@@ -1,0 +1,67 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+
+bool isSafe(int x,int y,std::vector<std::vector<int>>visited,
+            int n,int m,std::vector<std::vector<int>>v){
+    return (x>=0 && y>=0 && x<n && y<m && !visited[x][y] && v[x][y]==1);
+}
+
+int BFS(std::vector<std::vector<int>>v,int dX,int dY){
+    int row=v.size();
+    int col=v[0].size();
+    
+    std::vector<std::vector<int>>visited(row);
+    for(int i=0;i<row;++i)
+    visited[i]=std::vector<int>(col);
+    
+    std::queue<std::pair<int,int>>q;
+    q.push(std::pair<int,int>(0,0));
+    static int r1[]={-1,0,0,1};
+    static int c1[]={0,-1,1,0};
+    int dist[row][col]={0};
+    visited[0][0]=true;
+        
+    while(!q.empty()){
+        std::pair<int,int>p = q.front();
+       // std::cout<<p.first<<" "<<p.second<<"\n";
+        if(p.first==dX && p.second==dY){
+            return dist[p.first][p.second];
+        }
+        for(int i=0;i<4;++i){
+            int x = p.first+r1[i];
+            int y = p.second+c1[i];
+            if(isSafe(x,y,visited,row,col,v)){
+                q.push(std::pair<int,int>(x,y));
+                visited[x][y]=true;
+                dist[x][y]=dist[p.first][p.second]+1;
+            }
+        }
+        q.pop();
+    }
+   
+    return -1;
+}
+
+int main()
+ {
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n,m;
+	    std::cin>>n>>m;
+	    std::vector<std::vector<int>>v(n);
+	    for(int i=0;i<n;++i){
+	        v[i]=std::vector<int>(m);
+	        for(int j=0;j<m;++j)
+	        std::cin>>v[i][j];
+	    }
+	    int dX,dY;
+	    std::cin>>dX>>dY;
+	    
+	    if(v[0][0]==0 || v[dX][dY]==0)
+	        std::cout<<"-1"<<"\n";
+	    else
+	        std::cout<<BFS(v,dX,dY)<<"\n";
+	}
+}
