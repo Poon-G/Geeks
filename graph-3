@@ -1,0 +1,98 @@
+#include<iostream>
+#include<string>
+#include<list>
+#include<queue>
+
+bool BFS(std::list<int>*adj,int n,int s,int d){
+    int count=0;
+    std::queue<int>q;
+    q.push(s);
+    bool visited[26][26];
+   // visited[s][d]=true;
+    while(!q.empty()){
+        int v = q.front();
+        for (auto i = adj[v].begin(); i != adj[v].end(); ++i) 
+        {
+          if(!visited[v][*i]){
+            q.push(*i);
+            count++;
+            visited[v][*i]=true;
+          }
+        }
+        q.pop();
+    }
+    //std::cout<<count<<"\n";
+    if(count==n)
+    return true;
+    
+    return false;
+}
+
+void DFS(list<int>*adj,int s,bool visited[],string &res){
+    visited[s]=true;
+    for(auto it=adj[s].begin();it!=adj[s].end();++it){
+        if(!visited[*it])
+        DFS(adj,*it,visited,res);
+    }
+    res.push_back(s+'a');
+}
+
+string topoSort(list<int>*adj,int N,int k,int s){
+    bool visited[N]={false};
+    std::string res="";
+    DFS(adj,s,visited,res);
+    std::reverse(res.begin(),res.end());
+    return res;
+}
+
+int min(int x, int y) 
+{ 
+    return (x < y)? x : y; 
+} 
+
+string findOrder(string dict[], int N, int K) {
+   list<int>*adj=new list<int>[N];
+   for(int i=0;i<N-1;++i){
+       string word1 = dict[i], word2 = dict[i+1]; 
+        for (int j = 0; j < min(word1.length(), word2.length()); j++) 
+        { 
+            if (word1[j] != word2[j]) 
+            { 
+                int s = word1[j]-'a';
+                int e = word2[j]-'a';
+                adj[s].push_back(e);
+                break; 
+            } 
+        } 
+      
+   }
+
+   return topoSort(adj,N,K,dict[0][0]-'a');
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    std::string str[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>str[i];
+	    std::list<int>*adj = new std::list<int>[26];
+	    
+	    for(int i=0;i<n;++i){
+	        int l = str[i].size()-1;
+	        adj[str[i][0]-'a'].push_back(str[i][l]-'a');
+	    }
+	    
+	    if(n==1 && str[0].size()>1)
+	        std::cout<<"0\n";
+	    else if(n==1 && str[0].size()==1)
+	        std::cout<<"1\n";
+	    else
+	        std::cout<<BFS(adj,n,str[0][0]-'a',str[0][str[0].size()-1]-'a')<<"\n";
+	}
+	
+}
