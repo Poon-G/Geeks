@@ -1,0 +1,50 @@
+#include<iostream>
+#include<algorithm>
+
+class A{
+    public:
+    int start;
+    int finish;
+    A(){}
+    A(int x,int y):start(x),finish(y){}
+};
+
+bool compare(A a, A b){
+        return a.finish<b.finish;
+}
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n;
+	    std::cin>>n;
+	    A a[n];
+	    for(int i=0;i<n;++i){
+	        std::cin>>a[i].start;
+	    }
+	    for(int i=0;i<n;++i){
+	        std::cin>>a[i].finish;
+	    }
+	    
+	    std::sort(a,a+n,compare);
+	    
+	   // for(int i=0;i<n;++i){
+	   //     std::cout<<a[i].start<<" "<<a[i].finish<<"\n";
+	   // }
+	    
+	    int count=1,max=1;
+	    int s = a[0].finish;
+	    for(int i=1;i<n;++i){
+	        if(s<=a[i].start && s<=a[i].finish){
+	           // std::cout<<a[i].start<<" "<<a[i].finish<<"\n";
+	            count++;
+	            if(count>max)
+	            max= count;
+	            s = a[i].finish;
+	        }
+	    }
+	    std::cout<<max<<"\n";
+	}
+}
