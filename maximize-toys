@@ -1,0 +1,26 @@
+#include<iostream>
+#include<algorithm>
+
+int main()
+{
+	int T;
+	std::cin>>T;
+	while(T--){
+	    int n,k;
+	    std::cin>>n>>k;
+	    int a[n];
+	    for(int i=0;i<n;++i)
+	    std::cin>>a[i];
+	    
+	    std::sort(a,a+n);
+	    int maxToys=1;
+	    int curToys=a[0];
+	    for(int i=1;i<n;++i){
+	        if(curToys+a[i]<=k){
+	            curToys +=a[i];
+	            maxToys++;
+	        }
+	    }
+	    std::cout<<maxToys<<"\n";
+	}
+}
