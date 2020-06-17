@@ -1,0 +1,134 @@
+#include <iostream>
+int row[]={-1,-1,-1,0,0,1,1,1};
+int col[]={-1,0,1,-1,1,-1,0,1};
+
+bool isSafe(int i,int j,vector<int> A[],int N,int M,
+            vector<vector<bool>>visited){
+    return (i>=0 && j>=0 && i<N && j< M && !visited[i][j] 
+        && A[i][j]==1);
+}
+
+void findIsland(vector<int> A[], int i,int j,int N,int M,
+                vector<vector<bool>>&visited){
+     //   visited[i][j]=true;
+        queue<pair<int,int>>q;
+        q.push(pair<int,int>(i,j));
+        while(!q.empty()){
+            pair<int,int>p = q.front();
+            visited[p.first][p.second]=true;
+            q.pop();
+            for(int k=0;k<8;++k){
+                int x = row[k]+p.first;
+                int y = col[k]+p.second;
+                if(isSafe(x,y,A,N,M,visited)){
+                    q.push(pair<int,int>(x,y));
+                    visited[x][y]=true;
+                   // break;
+                    //findIsland(A,x,y,N,M,visited);
+                }
+            }
+        }
+}
+int findIslands(vector<int> A[], int N, int M) {
+    int res=0;
+    vector<vector<bool>>visited(N);
+    for(int i=0;i<N;i++){
+        visited[i]= vector<bool>(M);
+        for(int j=0;j<M;j++)
+            visited[i][j]=false;
+    }
+
+    for(int i=0;i<N;++i){
+        for(int j=0;j<M;++j){
+            if(!visited[i][j] && A[i][j]==1){
+             findIsland(A,i,j,N,M,visited);
+             res++;   
+            }
+        }
+    }
+    return res;
+}
+
+int row[]={-1,-1,-1,0,0,1,1,1};
+int col[]={-1,0,1,-1,1,-1,0,1};
+
+bool isSafe(int i,int j,vector<int> A[],int N,int M){
+    return (i>=0 && j>=0 && i<N && j<M && A[i][j]==1);
+}
+
+void findIsland(vector<int> A[], int i,int j,int N,int M){
+        //visited[i][j]=true;
+        A[i][j]=0;
+        // queue<pair<int,int>>q;
+        // q.push(pair<int,int>(i,j));
+        // while(!q.empty()){
+        //     pair<int,int>p = q.front();
+        //     visited[p.first][p.second]=true;
+        //     q.pop();
+            for(int k=0;k<8;++k){
+                int x = row[k]+i;
+                int y = col[k]+j;
+                if(isSafe(x,y,A,N,M)){
+                    // q.push(pair<int,int>(x,y));
+                    // visited[x][y]=true;
+                   // break;
+                    findIsland(A,x,y,N,M);
+                }
+            }
+       // }
+}
+int findIslands(vector<int> A[], int N, int M) {
+    int res=0;
+    // vector<vector<bool>>visited(N);
+    // for(int i=0;i<N;i++){
+    //     visited[i]= vector<bool>(M);
+    //     for(int j=0;j<M;j++)
+    //         visited[i][j]=false;
+    // }
+
+    for(int i=0;i<N;++i){
+        for(int j=0;j<M;++j){
+            if(A[i][j]==1){
+             findIsland(A,i,j,N,M);
+             res++;   
+            }
+        }
+    }
+    return res;
+}
+
+int* topoSort(int V, vector<int> adj[]) {
+    int cnt=0;
+    int *arr=new int[V];
+    if(V==0)
+    return arr;
+    int inDeg[V]={0};
+    for(int i=0;i<V;++i){
+      for(auto it:adj[i])
+        inDeg[it]++;
+    }
+   
+    queue<int>q;
+    for(int i=0;i<V;++i){
+       if(inDeg[i]==0)
+       q.push(i);
+    }
+    while(!q.empty()){
+       
+       int v = q.front();
+       arr[cnt++]=v;
+       q.pop();
+       for(int i=0;i<adj[v].size();++i){
+           if(--inDeg[adj[v][i]]==0)
+           q.push(adj[v][i]);
+       }
+    }
+return arr;
+}
+
+int main()
+{
+    cout<<"Hello World";
+
+    return 0;
+}
