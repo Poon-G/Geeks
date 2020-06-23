@@ -1,0 +1,40 @@
+void mirror(Node* node) 
+{
+    if(node==NULL)
+    return;
+    
+    if(node->left==NULL && node->right==NULL)
+    return;
+    
+    Node* mirror=node;
+    queue<Node*>q;
+    q.push(node);
+    while(!q.empty()){
+         Node* temp = NULL;
+         temp = q.front();
+         Node* left = NULL;
+         Node* right = NULL;
+         
+         Node* tmp = q.front();
+         if(temp->left){
+             right = temp->left;
+         }
+         if(temp->right){
+            left = temp->right;
+         }
+         if(left){
+              tmp->left =left;
+              q.push(tmp->left);
+         }
+         else
+            tmp->left = NULL;
+         if(right){
+             tmp->right = right;
+             q.push(tmp->right);
+         }
+         else
+            tmp->right=NULL;
+        
+         q.pop();
+    }
+}
